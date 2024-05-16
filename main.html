@@ -1,0 +1,96 @@
+i<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<input id="inp1" class="inp" type="text"  placeholder="Set Alarm">
+<button id="btn3" class="btn" onclick="checkalarm()">Enter</button>
+    <ul>
+        <li id="alarmHour">Alarm Hour: </li>
+    </ul>
+<script>
+
+// Get the input element by its ID
+let inp1 = document.getElementById("inp1");
+
+// Add an event listener to the input element
+// This listener triggers when the input value changes
+inp1.addEventListener("change", function() {
+    // Store the new input value in the browser's local storage with the key "alarmTime"
+    localStorage.setItem("alarmTime", this.value);
+});
+
+// Function to check the alarm time against the current time
+function checkalarm() {
+            // Get the input element again (although it's already available globally)
+            let inp1 = document.getElementById("inp1");
+
+            // Get the current value of the input element (alarm time set by the user)
+            let inputValue = inp1.value;
+            console.log("Input value:", inputValue);
+
+            // Get the current time
+            let now = new Date();
+            let minutes = now.getMinutes();
+            let hours = now.getHours() % 12 || 12; // Convert to 12-hour format
+
+            // Extract the hour and minute from the input value (alarm time)
+            let alarmHour = parseInt(inputValue.split(":")[0]);
+            let alarmMinute = parseInt(inputValue.split(":")[1]);
+
+            // Get the stored alarm time from local storage
+            let storedAlarmTime = localStorage.getItem("alarmTime");
+
+            // Extract the hour from the stored alarm time (no need to parse the minute as it's not used)
+            let localstorage = parseInt(storedAlarmTime.split(":")[0]);
+
+            // Check if the current time matches the stored alarm time hour
+            // or if the current minutes are greater than or equal to the alarm minutes
+            if (hours === localstorage || minutes >= alarmMinute) {
+                // If the condition is met, show an alert indicating the alarm is ringing
+                alert("Your alarm is ringing");
+
+                // Function to play an alarm sound
+                function aux() {
+                    // Create a new Audio object with the URL of the alarm sound
+                    let audio = new Audio("https://d6cp9b00-a.akamaihd.net/downloads/ringtones/files/mp3/7120-download-iphone-6-original-ringtone-42676.mp3");
+                    // Play the alarm sound
+                    audio.play();
+                }
+
+            // Call the function to play the alarm sound
+            aux();
+
+            } else {
+                document.addEventListener("DOMContentLoaded", function() {
+                // Retrieve the stored alarm time from localStorage
+                let storedAlarmTime = localStorage.getItem('alarmTime');
+                // Parse the hour part and store it in localstorage
+                let localstorage = parseInt(storedAlarmTime.split(":")[0]);
+
+                // Select the <li> element by its ID
+                let alarmHourElement = document.getElementById("alarmHour");
+                // Set the text content of the <li> element to the value of localstorage
+                alarmHourElement.textContent += inputValue;
+            });
+
+            }
+        }
+    checkalarm()
+</script>
+
+    <div id = "clock" class="cldiv">
+        <div id="cldivin1" class="cldivin"></div>
+        <div id="cldivin2" class="cldivin"></div>
+        <div id="cldivin3" class="cldivin"></div>
+        <div id="cldivin4" class="cldivin"></div>
+    </div>
+    <ul id="list"></ul>
+ <script src = "p7.js"></script>
+</body>
+</html>
